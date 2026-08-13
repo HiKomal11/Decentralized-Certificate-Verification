@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Decentralized Certificate Verification</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>🎓 Decentralized Certificate Verification</h1>
+
+    <p>
+        Blockchain-based certificate issuing, verification and revocation
+    </p>
+
+    <button id="connectWallet">
+        Connect MetaMask
+    </button>
+
+    <p id="walletAddress"></p>
+
+</header>
+
+
+<main>
+
+    <!-- Issue Certificate -->
+
+    <section class="card">
+
+        <h2> Issue Certificate</h2>
+
+        <p class="card-description">
+            Authorized administrators can issue a new digital certificate.
+        </p>
+
+        <input
+            type="text"
+            id="certificateId"
+            placeholder="Certificate ID (e.g. CERT005)"
+        >
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Student Name"
+        >
+
+        <input
+            type="text"
+            id="course"
+            placeholder="Course"
+        >
+
+        <button id="issueCertificate">
+            Issue Certificate
+        </button>
+
+        <p id="issueStatus"></p>
+
+    </section>
+
+
+    <!-- Verify Certificate -->
+
+    <section class="card">
+
+        <h2> Verify Certificate</h2>
+
+        <p class="card-description">
+            Enter a certificate ID to verify its authenticity and status.
+        </p>
+
+        <input
+            type="text"
+            id="verifyCertificateId"
+            placeholder="Enter Certificate ID"
+        >
+
+        <button id="verifyCertificate">
+            Verify Certificate
+        </button>
+
+        <div id="verificationResult"></div>
+
+    </section>
+
+
+    <!-- Revoke Certificate -->
+
+    <section class="card">
+
+        <h2> Revoke Certificate</h2>
+
+        <p class="card-description">
+            Authorized administrators can revoke an existing certificate.
+        </p>
+
+        <input
+            type="text"
+            id="revokeCertificateId"
+            placeholder="Enter Certificate ID"
+        >
+
+        <button id="revokeCertificate">
+            Revoke Certificate
+        </button>
+
+        <p id="revokeStatus"></p>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Decentralized Certificate Verification • Powered by Blockchain
+    </p>
+
+</footer>
+
+
+<script
+    type="module"
+    src="app.js"
+></script>
+
+</body>
+
+</html>
