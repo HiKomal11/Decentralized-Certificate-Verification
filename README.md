@@ -1,29 +1,39 @@
-#  Decentralized Certificate Verification
+#  CertiChain — Decentralized Certificate Verification
 
-A blockchain-based certificate issuing, verification, revocation, QR verification, and PDF generation system built using **Solidity, Hardhat, Viem, JavaScript, HTML, CSS, and MetaMask**.
+A blockchain-based certificate issuing, verification, revocation, QR verification, and PDF generation system built using **Solidity, Hardhat, Viem, JavaScript, HTML, CSS, MetaMask, and Ethereum Sepolia**.
 
-The project demonstrates how blockchain technology can be used to create a tamper-resistant certificate verification system without relying on a traditional centralized database.
+CertiChain demonstrates how blockchain technology can be used to create a **tamper-resistant and publicly verifiable certificate system** without depending on a traditional centralized database.
+
+##  Live Application
+
+**Production:**
+https://certichain-verify.vercel.app
+
+**GitHub Repository:**
+https://github.com/HiKomal11/Decentralized-Certificate-Verification
+
+**Network:** Ethereum Sepolia Testnet
+**Chain ID:** `11155111`
 
 ---
 
-##  Project Overview
+#  Project Overview
 
-Traditional certificates can be forged, altered, or difficult to verify.
+Traditional academic certificates can be forged, altered, or difficult for organizations to verify.
 
-This project provides a decentralized certificate management system where an authorized administrator can:
+CertiChain provides a decentralized certificate management system where an authorized administrator can:
 
-- Issue digital certificates
-- Store certificate verification data on the blockchain
-- Generate a cryptographic certificate hash
-- Verify certificates directly from the blockchain
-- Revoke certificates
-- Generate QR codes for certificate verification
-- Provide a QR-based public verification page
-- Generate downloadable PDF certificates
-- Display blockchain transaction information
-- Connect securely using MetaMask
+*  Issue certificates
+*  Store certificate verification data on blockchain
+*  Generate cryptographic certificate hashes
+*  Verify certificates directly from blockchain
+*  Revoke certificates
+*  Generate QR codes for verification
+*  Generate downloadable PDF certificates
+*  Display blockchain transaction hashes
+*  Connect securely through MetaMask
 
-Once a certificate is issued, its verification information is stored inside a Solidity smart contract deployed on a local Ethereum-compatible blockchain.
+Certificate verification data is stored in a Solidity smart contract deployed on the **Ethereum Sepolia Testnet**.
 
 ---
 
@@ -31,37 +41,38 @@ Once a certificate is issued, its verification information is stored inside a So
 
 ## 1.  MetaMask Wallet Connection
 
-Users can connect their MetaMask wallet to the application.
+Users can connect their MetaMask wallet to CertiChain.
 
-The application automatically:
+The application:
 
-- Detects the connected wallet
-- Checks the blockchain network
-- Identifies the contract owner
-- Determines whether the connected wallet is an administrator or verifier
+* Detects the connected wallet
+* Checks the Sepolia network
+* Reads the smart contract owner
+* Determines the user's role
+* Displays administrator or verifier access
 
 ### User Roles
 
 **Administrator**
-- Issue certificates
-- Revoke certificates
+
+* Issue certificates
+* Revoke certificates
 
 **Verifier**
-- Verify certificates
 
-Certificate verification is publicly accessible.
+* Verify certificates
+
+Certificate verification can be performed without requiring administrator privileges.
 
 ---
 
-## 2.  Issue Certificate
+# 2.  Issue Certificate
 
-The administrator can issue a certificate by entering:
+The administrator can create a certificate by entering:
 
-- Certificate ID
-- Student Name
-- Course / Program
-
-The application generates a cryptographic certificate hash and sends the certificate information to the smart contract.
+* Certificate ID
+* Student Name
+* Course / Program
 
 Example:
 
@@ -71,13 +82,15 @@ Student Name: Rahul Sharma
 Course: B.Sc Computer Science
 ```
 
-After successful blockchain confirmation, the application displays the transaction hash.
+The application generates a Keccak-256 certificate hash and submits the certificate data to the smart contract.
+
+After blockchain confirmation, the transaction hash is displayed.
 
 ---
 
-## 3.  Blockchain Certificate Hash
+# 3.  Blockchain Certificate Hash
 
-Every certificate contains a `bytes32` cryptographic hash.
+Each certificate contains a `bytes32` cryptographic hash.
 
 Example:
 
@@ -85,22 +98,21 @@ Example:
 0x87e6793d6e45cd87b1ee25097e4180c0ce742a0e4c90453025fd861ee7aeb3ff
 ```
 
-The hash provides a cryptographic representation of certificate-related data and can help detect unauthorized changes.
+The hash provides a cryptographic representation of the certificate-related data and can help detect changes to the original information.
 
 ---
 
-## 4.  Certificate Verification
+# 4.  Certificate Verification
 
 Anyone can verify a certificate using its Certificate ID.
 
 The blockchain returns:
 
-- Certificate ID
-- Student Name
-- Course
-- Certificate Hash
-- Issue Date
-- Certificate Status
+* Student Name
+* Course
+* Certificate Hash
+* Issue Date
+* Validity Status
 
 Example:
 
@@ -111,19 +123,19 @@ Certificate ID: CERT005
 Student: Rahul Sharma
 Course: B.Sc Computer Science
 Certificate Hash: 0x87e679...
-Issue Date: 13 August 2026
+Issue Date: 14 August 2026
 Status: Valid
 ```
 
+The verification data is retrieved directly from the deployed smart contract.
+
 ---
 
-## 5.  Certificate Revocation
+# 5.  Certificate Revocation
 
-Only the contract owner can revoke a certificate.
+Only the smart contract owner can revoke certificates.
 
-After revocation, the certificate remains stored on the blockchain, but its status changes to invalid.
-
-Example:
+When a certificate is revoked:
 
 ```text
 ✗ Certificate Revoked
@@ -134,40 +146,42 @@ Course: B.Sc Computer Science
 Status: Revoked
 ```
 
-This provides a permanent blockchain record of the certificate while preventing a revoked certificate from being considered valid.
+The certificate record remains on the blockchain, while its `isValid` status becomes `false`.
+
+This preserves the historical record while preventing the revoked certificate from being treated as valid.
 
 ---
 
-## 6.  QR Code Verification
+# 6.  QR Code Verification
 
-After issuing a certificate, the application automatically generates a QR code.
+After issuing a certificate, CertiChain automatically generates a QR code.
 
-The QR code contains a verification URL such as:
+The QR code contains a verification URL similar to:
 
 ```text
-http://192.168.0.112:5500/verify.html?id=CERT005
+https://certichain-verify.vercel.app/verify.html?id=CERT005
 ```
 
-When the QR code is scanned, the user is taken to the dedicated verification page.
+When scanned, the user is taken directly to the certificate verification page.
 
 The verification page:
 
-- Reads the Certificate ID from the URL
-- Connects to the blockchain
-- Retrieves the certificate information
-- Displays the certificate status
-- Shows certificate details
-- Displays the blockchain certificate hash
+1. Reads the Certificate ID from the URL
+2. Connects to the Sepolia blockchain through a public RPC
+3. Retrieves the certificate information
+4. Displays the certificate status
+5. Shows the certificate hash
+6. Displays the issue date
 
-This allows certificate verification without requiring MetaMask on the verifier's device.
+This allows certificate verification from a phone or computer without requiring the verifier to be the contract owner.
 
 ---
 
-## 7.  Download QR Code
+# 7.  Download QR Code
 
-The generated QR code can be downloaded as a PNG image.
+Generated QR codes can be downloaded as PNG images.
 
-Example filename:
+Example:
 
 ```text
 CERT005-QR.png
@@ -175,20 +189,21 @@ CERT005-QR.png
 
 ---
 
-## 8.  PDF Certificate Generation
+# 8.  PDF Certificate Generation
 
-The application can generate a downloadable PDF certificate containing certificate information.
+CertiChain can generate a downloadable PDF certificate after successful certificate issuance.
 
-The generated PDF includes:
+The PDF contains:
 
-- Certificate ID
-- Student Name
-- Course
-- Issue Date
-- Certificate Status
-- Blockchain Certificate Hash
-- Blockchain Transaction Hash
-- Blockchain verification information
+* Certificate ID
+* Student Name
+* Course
+* Issue Date
+* Certificate Hash
+* Blockchain Transaction Hash
+* Certificate status
+* QR verification code
+* Blockchain verification information
 
 Example:
 
@@ -205,99 +220,105 @@ Blockchain Certificate Hash:
 Blockchain Transaction Hash:
 0xe41b5fb1...
 
-✓ Certificate verification data stored on blockchain
+Certificate verification data stored on blockchain
 ```
 
-The PDF is generated locally from the certificate information.
-
-**The PDF file itself is not stored on the blockchain.**
+**Important:** The generated PDF itself is **not stored on the blockchain**. The PDF is generated locally in the user's browser.
 
 ---
 
-## 9.  Copy Certificate Hash
+# 9.  Certificate Hash Copying
 
-The verification interface provides a convenient way to copy the certificate hash for further verification or record keeping.
+The verification interface provides a convenient option to copy the certificate hash for further verification or record keeping.
 
 ---
 
-## 10.  Modern Web3 Interface
+# 10.  Modern Web3 Interface
 
-The frontend uses a modern Web3-inspired interface featuring:
+The frontend provides a modern Web3-inspired interface featuring:
 
-- Dark theme
-- Glassmorphism-style cards
-- Responsive layout
-- Certificate status indicators
-- Blockchain verification badges
-- Mobile-friendly verification page
-- Dedicated QR verification page
+* Dark theme
+* Glassmorphism-style cards
+* Responsive layout
+* Certificate status indicators
+* Blockchain verification badges
+* Mobile-friendly verification page
+* QR-based verification
+* Administrator controls
+* Blockchain transaction information
 
 ---
 
 #  System Architecture
 
 ```text
-                  ┌──────────────────────┐
-                  │    Administrator     │
-                  │      / Verifier      │
-                  └──────────┬───────────┘
+                    ┌──────────────────────┐
+                    │ Administrator /      │
+                    │ Verifier             │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │    Web Frontend      │
+                    │   HTML + CSS + JS    │
+                    └──────────┬───────────┘
+                               │
+                  ┌────────────┴────────────┐
+                  ▼                         ▼
+           ┌─────────────┐          ┌──────────────┐
+           │  MetaMask   │          │ Public RPC   │
+           │ Transactions│          │   Provider   │
+           └──────┬──────┘          └──────┬───────┘
+                  │                        │
+                  └────────────┬───────────┘
+                               ▼
+                    ┌──────────────────────┐
+                    │ Ethereum Sepolia     │
+                    │ Testnet              │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+              ┌──────────────────────────────┐
+              │ CertificateVerification.sol │
+              └──────────────┬───────────────┘
+                             │
+                 ┌───────────┼───────────┐
+                 ▼           ▼           ▼
+               Issue       Verify      Revoke
+                 │           │           │
+                 └───────────┼───────────┘
                              │
                              ▼
-                  ┌──────────────────────┐
-                  │    Web Frontend      │
-                  │    HTML + CSS + JS   │
-                  └──────────┬───────────┘
+                   Blockchain Certificate
+                          Data
                              │
-                             ▼
-                       ┌─────────────┐
-                       │   MetaMask  │
-                       └──────┬──────┘
-                              │
-                              ▼
-                  ┌──────────────────────┐
-                  │   Hardhat Network    │
-                  │    Chain ID 31337    │
-                  └──────────┬───────────┘
-                             │
-                             ▼
-             ┌───────────────────────────────┐
-             │ CertificateVerification.sol  │
-             └──────────────┬────────────────┘
-                            │
-                 ┌──────────┼──────────┐
-                 ▼          ▼          ▼
-               Issue      Verify     Revoke
-                 │          │          │
-                 └──────────┼──────────┘
-                            │
-                            ▼
-                 Blockchain Certificate Data
-                            │
-                 ┌──────────┴──────────┐
-                 ▼                     ▼
-             QR Code                PDF
-           Verification           Generation
+                    ┌────────┴────────┐
+                    ▼                 ▼
+                 QR Code             PDF
+              Verification        Generation
 ```
 
 ---
 
 #  Technologies Used
 
-| Technology | Purpose |
-|---|---|
-| Solidity | Smart contract development |
-| Hardhat 3 | Ethereum development and local blockchain |
-| Viem | Blockchain interaction |
-| MetaMask | Wallet connection and transaction signing |
-| JavaScript | Frontend logic and blockchain integration |
-| HTML | Frontend structure |
-| CSS | Frontend styling |
-| QRCode | QR code generation |
-| jsPDF | PDF certificate generation |
-| Node.js | Development environment |
-| npm | Package management |
-| Git | Version control |
-| GitHub | Source code hosting |
+| Technology       | Purpose                                   |
+| ---------------- | ----------------------------------------- |
+| Solidity         | Smart contract development                |
+| Hardhat 3        | Ethereum development and testing          |
+| Ethereum Sepolia | Blockchain deployment                     |
+| Viem             | Blockchain interaction                    |
+| MetaMask         | Wallet connection and transaction signing |
+| JavaScript       | Frontend logic                            |
+| HTML             | Frontend structure                        |
+| CSS              | Frontend styling                          |
+| QRCode           | QR code generation                        |
+| jsPDF            | PDF certificate generation                |
+| Node.js          | Development environment                   |
+| npm              | Package management                        |
+| Git              | Version control                           |
+| GitHub           | Source code hosting                       |
+| Vercel           | Production frontend deployment            |
 
 ---
 
@@ -340,9 +361,7 @@ The main smart contract is:
 contracts/CertificateVerification.sol
 ```
 
-The contract provides three main operations.
-
----
+The contract provides three primary operations.
 
 ## `issueCertificate()`
 
@@ -371,15 +390,15 @@ function verifyCertificate(
 )
 ```
 
-The function returns:
+Returns:
 
-- Student name
-- Course
-- Certificate hash
-- Issue date
-- Validity status
+* Student Name
+* Course
+* Certificate Hash
+* Issue Date
+* Validity Status
 
-Certificate verification is publicly accessible.
+The function is publicly accessible.
 
 ---
 
@@ -395,53 +414,45 @@ function revokeCertificate(
 
 Only the contract owner can revoke certificates.
 
-The certificate remains on the blockchain, but its validity status changes to invalid.
+The certificate remains stored on-chain while its validity status becomes `false`.
 
 ---
 
 #  Access Control
 
-The smart contract uses an owner-based access control mechanism.
+CertiChain uses owner-based access control.
 
 Only the contract owner can:
 
-- Issue certificates
-- Revoke certificates
+* Issue certificates
+* Revoke certificates
 
 Anyone can:
 
-- Verify certificates
-- Access the QR verification page
+* Verify certificates
+* Access the verification page
+* Verify certificates through QR codes
 
 This prevents unauthorized users from issuing or revoking certificates.
 
 ---
 
-#  Certificate Data
+#  Sepolia Deployment
 
-A certificate is represented by:
-
-```text
-Certificate
-│
-├── Certificate ID
-├── Student Name
-├── Course
-├── Certificate Hash
-├── Issue Date
-└── Validity Status
-```
-
-Example:
+The production application uses the **Ethereum Sepolia Testnet**.
 
 ```text
-Certificate ID: CERT005
-Student Name: Rahul Sharma
-Course: B.Sc Computer Science
-Certificate Hash: 0x31fe...
-Issue Date: 13 August 2026
-Status: Valid
+Network: Ethereum Sepolia
+Chain ID: 11155111
 ```
+
+Smart contract:
+
+```text
+0xAd731be07A648F67ceE32117AD5C8fFC592A10bb
+```
+
+The application uses the Sepolia contract for certificate issuance, verification, and revocation.
 
 ---
 
@@ -471,21 +482,19 @@ npm install
 npx hardhat compile
 ```
 
-If compilation is successful, Hardhat will compile the Solidity contract.
-
 ---
 
-#  Start the Local Blockchain
+#  Local Development
 
-Open a terminal in the project directory and run:
+The project can also be tested using a local Hardhat blockchain.
+
+Start the local blockchain:
 
 ```bash
 npx hardhat node
 ```
 
-Hardhat starts a local Ethereum-compatible blockchain.
-
-Default local RPC endpoint:
+Default RPC:
 
 ```text
 http://127.0.0.1:8545
@@ -497,39 +506,21 @@ Chain ID:
 31337
 ```
 
-Hardhat also provides local test accounts containing test ETH.
-
----
-
-#  Deploy the Smart Contract
-
-Keep the Hardhat node running.
-
-Open another terminal and run:
+Deploy the contract:
 
 ```bash
 npx hardhat ignition deploy ignition/modules/CertificateVerification.ts --network localhost
 ```
 
-A successful deployment will display the deployed contract address.
+The local contract address will be displayed after deployment.
 
-Example:
-
-```text
-CertificateVerificationModule#CertificateVerification
-
-0x5FbDB2315678afecb367f032d93F642f64180aa3
-```
-
-The contract address can change when the local blockchain is restarted and the contract is redeployed.
+> The local contract address can change when the Hardhat blockchain is restarted and the contract is redeployed.
 
 ---
 
-#  MetaMask Setup
+#  MetaMask Setup for Local Development
 
-Add the local Hardhat network to MetaMask.
-
-Use:
+For local testing, add the Hardhat network to MetaMask:
 
 ```text
 Network Name: Hardhat Local
@@ -538,55 +529,33 @@ Chain ID: 31337
 Currency Symbol: ETH
 ```
 
-For local testing, you can import one of the test accounts displayed by:
+For local development, Hardhat provides test accounts containing test ETH.
 
-```bash
-npx hardhat node
-```
+###  Security Warning
 
----
+Hardhat private keys are publicly known development keys.
 
-#  Security Warning
+**Never use Hardhat test accounts on:**
 
-The private keys displayed by Hardhat's local node are publicly known test keys.
-
-**Never use these accounts or private keys on:**
-
-- Ethereum Mainnet
-- Sepolia
-- Any real blockchain
-- Any account containing real funds
-
-They are intended only for local development and testing.
+* Ethereum Mainnet
+* Sepolia
+* Any production blockchain
+* Accounts containing real funds
 
 ---
 
-#  Run the Frontend
+#  Run the Frontend Locally
 
-The frontend is located inside:
+The frontend is located in:
 
 ```text
 frontend/
 ```
 
-It contains:
-
-```text
-index.html
-verify.html
-app.js
-style.css
-```
-
-From the project directory:
+Run:
 
 ```bash
 cd frontend
-```
-
-Start a simple local web server:
-
-```bash
 python -m http.server 5500
 ```
 
@@ -596,314 +565,190 @@ Then open:
 http://127.0.0.1:5500
 ```
 
-Make sure MetaMask is connected to:
-
-```text
-Hardhat Local
-```
+For local development, MetaMask must be connected to the corresponding local Hardhat network and the frontend must use the locally deployed contract address.
 
 ---
 
-#  QR Verification on Local Network
+#  Production Deployment
 
-The QR verification feature uses the computer's local network IP address so that another device on the same Wi-Fi network can scan the QR code.
+The current frontend is deployed using **Vercel**.
 
-Example:
-
-```text
-http://192.168.0.112:5500/verify.html?id=CERT005
-```
-
-The IP address may be different on another computer or network.
-
-For QR verification from a phone:
-
-1. Connect the phone and computer to the same Wi-Fi network.
-2. Start the frontend server.
-3. Generate a certificate.
-4. Scan the generated QR code.
-5. The phone opens the verification page.
-6. The page retrieves the certificate information from the local blockchain.
-
----
-
-#  How to Use the Application
-
-## Step 1 — Connect MetaMask
-
-Click:
+Production URL:
 
 ```text
-Connect MetaMask
+https://certichain-verify.vercel.app
 ```
 
-The application displays:
+The production frontend connects to the Ethereum Sepolia Testnet.
 
-- Connected wallet address
-- User role
-
-The role is automatically determined by comparing the connected wallet with the smart contract owner.
-
----
-
-## Step 2 — Issue a Certificate
-
-Enter:
+Production deployment workflow:
 
 ```text
-Certificate ID
-Student Name
-Course
+GitHub Repository
+       │
+       ▼
+     main
+       │
+       ▼
+     Vercel
+       │
+       ▼
+Production Frontend
+       │
+       ▼
+Ethereum Sepolia
+       │
+       ▼
+Smart Contract
 ```
 
-Then click:
-
-```text
-Issue on Blockchain
-```
-
-MetaMask will request transaction confirmation.
-
-After confirmation, the application displays the blockchain transaction hash.
-
-The application also generates a QR code for the certificate.
-
----
-
-## Step 3 — Download the QR Code
-
-Click:
-
-```text
-Download QR Code
-```
-
-The QR code is downloaded as:
-
-```text
-CERT005-QR.png
-```
-
----
-
-## Step 4 — Generate PDF Certificate
-
-After issuing the certificate, use the PDF generation option to create a downloadable certificate document.
-
-The PDF contains blockchain-related verification information including:
-
-- Certificate ID
-- Student information
-- Course
-- Certificate hash
-- Transaction hash
-- Certificate status
-
----
-
-## Step 5 — Verify the Certificate
-
-Enter:
-
-```text
-CERT005
-```
-
-Then click:
-
-```text
-Verify Certificate
-```
-
-The application reads the certificate directly from the blockchain.
-
----
-
-## Step 6 — Verify Using QR Code
-
-Scan the certificate QR code.
-
-The verification page opens automatically.
-
-Example:
-
-```text
-Certificate Verification
-
-✓ Valid Certificate
-
-Certificate ID: CERT005
-Student Name: Rahul Sharma
-Course: B.Sc Computer Science
-Issue Date: 13 August 2026
-
-Certificate Hash:
-0x31fe...
-
-✓ Certificate data verified directly from blockchain
-```
-
----
-
-## Step 7 — Revoke the Certificate
-
-The administrator enters:
-
-```text
-CERT005
-```
-
-and clicks:
-
-```text
-Revoke Certificate
-```
-
-MetaMask requests transaction confirmation.
-
-After confirmation, the certificate becomes invalid.
-
----
-
-## Step 8 — Verify Again
-
-Verify:
-
-```text
-CERT005
-```
-
-The application displays:
-
-```text
-✗ Certificate Revoked
-```
-
-The original blockchain certificate data remains available, while its status indicates that it has been revoked.
+Every update pushed to the `main` branch can trigger a new Vercel deployment.
 
 ---
 
 #  Application Workflow
 
 ```text
-              Administrator
-                    │
-                    ▼
-             Connect MetaMask
-                    │
-                    ▼
-          Enter Certificate Details
-                    │
-                    ▼
-           Generate Certificate Hash
-                    │
-                    ▼
-           Issue on Blockchain
-                    │
-                    ▼
-            Smart Contract
-                    │
-                    ▼
-       Certificate Stored On-Chain
-                    │
-          ┌─────────┴─────────┐
-          ▼                   ▼
-       QR Code               PDF
-          │                Generation
-          ▼
-    Verification URL
-          │
-          ▼
-      Verify Page
-          │
-          ▼
+                 Administrator
+                       │
+                       ▼
+                Connect MetaMask
+                       │
+                       ▼
+             Enter Certificate Details
+                       │
+                       ▼
+             Generate Certificate Hash
+                       │
+                       ▼
+              Issue on Blockchain
+                       │
+                       ▼
+              Smart Contract
+                       │
+                       ▼
+           Certificate Stored On-Chain
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+          QR Code               PDF
+             │                Generation
+             ▼
+      Verification URL
+             │
+             ▼
+        Verify Page
+             │
+             ▼
    Blockchain Verification
-          │
-     ┌────┴────┐
-     ▼         ▼
-   Valid     Revoked
+             │
+        ┌────┴────┐
+        ▼         ▼
+      Valid     Revoked
+```
+
+---
+
+#  Certificate Lifecycle
+
+```text
+Issue
+  ↓
+Store on Blockchain
+  ↓
+Generate QR Code
+  ↓
+Generate PDF
+  ↓
+Verify
+  ↓
+Revoke if Required
+  ↓
+Verify Again
+  ↓
+Revoked Status
 ```
 
 ---
 
 #  Testing Performed
 
-The project has been tested successfully on a local Hardhat blockchain.
+The following functionality has been tested:
 
-The following operations have been tested:
-
-- Smart contract compilation
-- Smart contract deployment
-- MetaMask connection
-- Network detection
-- Administrator detection
-- Verifier detection
-- Certificate issuance
-- Certificate hash generation
-- Certificate verification
-- Certificate revocation
-- Verification after revocation
-- Frontend-to-blockchain interaction
-- QR code generation
-- QR code download
-- QR-based certificate verification
-- Certificate hash copying
-- PDF certificate generation
-- PDF certificate download
-- Blockchain transaction hash display
-- Responsive verification interface
+* Smart contract compilation
+* Smart contract deployment
+* MetaMask connection
+* Sepolia network detection
+* Administrator detection
+* Verifier access
+* Certificate issuance
+* Certificate hash generation
+* Certificate verification
+* Certificate revocation
+* Verification after revocation
+* Frontend-to-blockchain interaction
+* QR code generation
+* QR code download
+* QR-based verification
+* Certificate hash copying
+* PDF certificate generation
+* PDF certificate download
+* Blockchain transaction hash display
+* Production Vercel deployment
+* Responsive verification interface
 
 ---
 
 #  Advantages
 
-### Security
+###  Security
 
-Certificate verification data is stored on a blockchain and protected by the smart contract.
+Certificate verification data is protected by blockchain and smart-contract rules.
 
-### Decentralized Verification
+###  Public Verification
 
-Certificate verification does not depend on a traditional centralized database.
+Certificate information can be verified directly from the blockchain.
 
-### Fraud Reduction
+###  Fraud Reduction
 
-Blockchain records make unauthorized modification and fabrication more difficult.
+Blockchain records make unauthorized modification of stored certificate information significantly more difficult.
 
-### Easy Verification
+###  QR Verification
 
-Certificates can be verified using a unique Certificate ID or QR code.
+A certificate can contain a QR code that directly opens its verification page.
 
-### QR-Based Verification
+###  Cryptographic Integrity
 
-Users can scan a QR code to open the verification page directly.
+Certificate-related data is represented using a cryptographic hash.
 
-### Cryptographic Integrity
-
-Certificate hashes provide a cryptographic representation of certificate-related data.
-
-### Transparency
+###  Transparency
 
 Blockchain transactions provide a transparent record of certificate operations.
 
-### Revocation
+###  Revocation
 
-Certificates can be revoked by the authorized administrator while retaining their blockchain record.
+Authorized administrators can revoke certificates while preserving their blockchain record.
+
+###  Decentralized Verification
+
+Verification does not require a traditional centralized certificate database.
 
 ---
 
-# Current Limitations
+#  Current Limitations
 
-This project currently uses a local Hardhat blockchain for development and demonstration.
+Although CertiChain is deployed on Ethereum Sepolia, it is currently an **educational/testnet project**.
 
-Therefore:
+Current limitations include:
 
-- The blockchain is not publicly accessible.
-- Blockchain data is reset when the local Hardhat network is restarted.
-- The system currently has a single contract owner.
-- Certificate PDF files are not stored on-chain.
-- Certificate documents are not stored on IPFS.
-- QR verification currently depends on local network accessibility.
-- The application is intended for educational and demonstration purposes.
+* Sepolia is a test network rather than Ethereum Mainnet.
+* The system currently uses a single contract owner.
+* Certificate PDF files are not stored on-chain.
+* Certificate documents are not currently stored on IPFS.
+* The current smart contract uses owner-based access control.
+* Production use would require stronger identity and access management.
+* Testnet availability depends on the Sepolia network and RPC provider.
+* The project is intended for educational and demonstration purposes.
 
 ---
 
@@ -911,43 +756,43 @@ Therefore:
 
 Possible future improvements include:
 
-- IPFS integration for certificate documents
-- Multiple authorized certificate issuers
-- Role-based access control
-- University / college administration dashboard
-- Certificate expiration
-- Ethereum testnet deployment
-- Public blockchain explorer integration
-- Certificate management dashboard
-- Email notifications
-- Certificate analytics
-- Cloud-based certificate storage
-- Production deployment
-- Enhanced certificate templates
-- Digital signatures
-- Multi-institution support
+*  IPFS integration for certificate documents
+*  Multiple authorized certificate issuers
+*  Role-based access control
+*  University/college administration dashboard
+*  Certificate expiration
+*  Blockchain explorer integration
+*  Certificate management dashboard
+*  Email notifications
+*  Certificate analytics
+*  Multi-institution support
+*  Digital signatures
+*  Advanced certificate templates
+*  Improved identity management
+*  Enhanced mobile verification
+*  Ethereum Mainnet deployment after appropriate security auditing
 
 ---
 
 #  Real-World Applications
 
-The system can be adapted for:
+CertiChain can be adapted for:
 
-- Universities
-- Colleges
-- Schools
-- Online education platforms
-- Professional certification organizations
-- Training institutes
-- Corporate employee certification
-- Skill certification platforms
-- Government certificate verification systems
+* Universities
+* Colleges
+* Schools
+* Online education platforms
+* Professional certification organizations
+* Training institutes
+* Corporate employee certification
+* Skill certification platforms
+* Government certificate verification systems
 
 ---
 
 #  Project Highlights
 
-This project demonstrates practical integration of:
+CertiChain combines:
 
 ```text
 Blockchain
@@ -958,16 +803,18 @@ Web3
      +
 MetaMask
      +
-QR Verification
+Ethereum Sepolia
      +
 Cryptographic Hashing
+     +
+QR Verification
      +
 PDF Generation
      +
 Modern Web Interface
 ```
 
-It combines blockchain technology with a user-friendly frontend to demonstrate a complete certificate lifecycle:
+The complete certificate lifecycle is:
 
 ```text
 Issue → Store → Verify → QR Verify → Generate PDF → Revoke
@@ -977,12 +824,14 @@ Issue → Store → Verify → QR Verify → Generate PDF → Revoke
 
 #  Author
 
-**Komal Pandey**
+## Komal Pandey
 
-GitHub:  
+GitHub:
+
 https://github.com/HiKomal11
 
-Project Repository:  
+Project Repository:
+
 https://github.com/HiKomal11/Decentralized-Certificate-Verification
 
 ---
@@ -990,3 +839,5 @@ https://github.com/HiKomal11/Decentralized-Certificate-Verification
 #  License
 
 This project is licensed under the **MIT License**.
+
+---
