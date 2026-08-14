@@ -16,18 +16,18 @@ import {
 // ======================================================
 
 const CONTRACT_ADDRESS =
-    "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+    "0xAd731be07A648F67ceE32117AD5C8fFC592A10bb";
 
 
 // ======================================================
 // HARDHAT LOCAL NETWORK
 // ======================================================
 
-const hardhatLocal = defineChain({
+const sepolia = defineChain({
 
-    id: 31337,
+    id: 11155111,
 
-    name: "Hardhat Local",
+    name: "Sepolia",
 
     nativeCurrency: {
         name: "Ether",
@@ -38,13 +38,12 @@ const hardhatLocal = defineChain({
     rpcUrls: {
         default: {
             http: [
-                "http://192.168.0.112:8545"
+                "https://ethereum-sepolia-rpc.publicnode.com"
             ]
         }
     }
 
 });
-
 
 // ======================================================
 // VARIABLES
@@ -238,10 +237,10 @@ document
                 });
 
 
-            if (parseInt(chainId, 16) !== 31337) {
+            if (parseInt(chainId, 16) !== 11155111) {
 
                 alert(
-                    "Please switch MetaMask to Hardhat Local (Chain ID 31337)."
+                    "Please switch MetaMask to Sepolia Network (Chain ID 11155111)."
                 );
 
                 return;
@@ -257,7 +256,7 @@ document
 
                     account: account,
 
-                    chain: hardhatLocal,
+                    chain: sepolia,
 
                     transport: custom(
                         window.ethereum
@@ -273,11 +272,12 @@ document
             publicClient =
                 createPublicClient({
 
-                    chain: hardhatLocal,
+                    chain: sepolia,
 
-                    transport: http(
-                        "http://192.168.0.112:8545"
-                    )
+                    transport:
+                        http(
+                            "https://ethereum-sepolia-rpc.publicnode.com"
+                        )
 
                 });
 
@@ -376,16 +376,19 @@ document
 
         catch (error) {
 
-            console.error(error);
+            console.error("Connection error:", error);
 
             document
-                .getElementById(
-                    "walletAddress"
-                )
+                .getElementById("walletAddress")
                 .innerText =
-                    "❌ Connection failed";
+                    "Connected: " + account;
 
-        }
+            document
+                .getElementById("userRole")
+                .innerText =
+                    "⚠️ Wallet connected, but contract information could not be loaded.";
+
+}
 
     });
 
@@ -538,7 +541,7 @@ document
                         account,
 
                     chain:
-                        hardhatLocal
+                        sepolia
 
                 });
 
@@ -580,9 +583,9 @@ document
              */
 
             const verificationURL =
-                "http://192.168.0.112:5500/verify.html?id=" +
+                window.location.origin +
+                "/verify.html?id=" +
                 encodeURIComponent(certificateId);
-
 
             console.log(
                 "Verification URL:",
@@ -1060,9 +1063,7 @@ document
                         pdf.text(
                             "Certificate verification data stored on blockchain",
                             35,
-                            218
-                        );
-
+                            218);
                         // --------------------------------------
                         // TRANSACTION HASH
                         // --------------------------------------
@@ -1161,16 +1162,6 @@ document
 
 
                         pdf.setFontSize(8);
-
-                        pdf.text(
-                            "Ethereum-compatible blockchain • Hardhat Local",
-                            105,
-                            278,
-                            {
-                                align: "center"
-                            }
-                        );
-
 
                         // --------------------------------------
                         // SAVE PDF
@@ -1483,7 +1474,7 @@ document
                         account,
 
                     chain:
-                        hardhatLocal
+                        sepolia
 
                 });
 
