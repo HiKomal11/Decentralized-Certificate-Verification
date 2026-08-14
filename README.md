@@ -284,8 +284,8 @@ Verify Certificate
       │               │
       ▼               ▼
    Valid            Revoked
-  Access Control
-
+ 
+  ## Access Control
 The smart contract uses an owner-based access control mechanism.
 Only the contract owner can:
 - Issue Certificate
