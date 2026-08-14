@@ -643,6 +643,546 @@ document
 
                 };
 
+                // ------------------------------------------
+                // DOWNLOAD CERTIFICATE PDF
+                // ------------------------------------------
+
+                document
+                    .getElementById("downloadPDF")
+                    .onclick = () => {
+
+                        const {
+                            jsPDF
+                        } = window.jspdf;
+
+                        const pdf =
+                            new jsPDF({
+                                orientation: "portrait",
+                                unit: "mm",
+                                format: "a4"
+                            });
+
+
+                        // --------------------------------------
+                        // PAGE BORDER
+                        // --------------------------------------
+
+                        pdf.setDrawColor(
+                            37,
+                            99,
+                            235
+                        );
+
+                        pdf.setLineWidth(1.5);
+
+                        pdf.rect(
+                            12,
+                            12,
+                            186,
+                            273
+                        );
+
+
+                        // --------------------------------------
+                        // TITLE
+                        // --------------------------------------
+
+                        pdf.setTextColor(
+                            37,
+                            99,
+                            235
+                        );
+
+                        pdf.setFontSize(24);
+
+                        pdf.setFont(
+                            "helvetica",
+                            "bold"
+                        );
+
+                        pdf.text(
+                            "DECENTRALIZED",
+                            105,
+                            35,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        pdf.setTextColor(
+                            30,
+                            41,
+                            59
+                        );
+
+                        pdf.setFontSize(20);
+
+                        pdf.text(
+                            "CERTIFICATE",
+                            105,
+                            46,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        // --------------------------------------
+                        // SUBTITLE
+                        // --------------------------------------
+
+                        pdf.setFontSize(11);
+
+                        pdf.setFont(
+                            "helvetica",
+                            "normal"
+                        );
+
+                        pdf.setTextColor(
+                            100,
+                            116,
+                            139
+                        );
+
+                        pdf.text(
+                            "Blockchain Verified Digital Certificate",
+                            105,
+                            56,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        // --------------------------------------
+                        // DECORATIVE LINE
+                        // --------------------------------------
+
+                        pdf.setDrawColor(
+                            148,
+                            163,
+                            184
+                        );
+
+                        pdf.setLineWidth(0.4);
+
+                        pdf.line(
+                            35,
+                            65,
+                            175,
+                            65
+                        );
+
+
+                        // --------------------------------------
+                        // STUDENT NAME
+                        // --------------------------------------
+
+                        pdf.setTextColor(
+                            30,
+                            41,
+                            59
+                        );
+
+                        pdf.setFontSize(12);
+
+                        pdf.text(
+                            "This certificate is proudly presented to",
+                            105,
+                            82,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        pdf.setFontSize(25);
+
+                        pdf.setFont(
+                            "helvetica",
+                            "bold"
+                        );
+
+                        pdf.setTextColor(
+                            37,
+                            99,
+                            235
+                        );
+
+                        pdf.text(
+                            studentName,
+                            105,
+                            96,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        // --------------------------------------
+                        // COURSE
+                        // --------------------------------------
+
+                        pdf.setFont(
+                            "helvetica",
+                            "normal"
+                        );
+
+                        pdf.setFontSize(12);
+
+                        pdf.setTextColor(
+                            71,
+                            85,
+                            105
+                        );
+
+                        pdf.text(
+                            "for successfully completing",
+                            105,
+                            110,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        pdf.setFontSize(17);
+
+                        pdf.setFont(
+                            "helvetica",
+                            "bold"
+                        );
+
+                        pdf.setTextColor(
+                            30,
+                            41,
+                            59
+                        );
+
+                        pdf.text(
+                            course,
+                            105,
+                            122,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        // --------------------------------------
+                        // CERTIFICATE DETAILS
+                        // --------------------------------------
+
+                        pdf.setFont(
+                            "helvetica",
+                            "normal"
+                        );
+
+                        pdf.setFontSize(11);
+
+                        pdf.setTextColor(
+                            71,
+                            85,
+                            105
+                        );
+
+                        pdf.text(
+                            "Certificate ID:",
+                            35,
+                            145
+                        );
+
+                        pdf.setTextColor(
+                            15,
+                            23,
+                            42
+                        );
+
+                        pdf.setFont(
+                            "helvetica",
+                            "bold"
+                        );
+
+                        pdf.text(
+                            certificateId,
+                            75,
+                            145
+                        );
+
+
+                        pdf.setFont(
+                            "helvetica",
+                            "normal"
+                        );
+
+                        pdf.setTextColor(
+                            71,
+                            85,
+                            105
+                        );
+
+                        pdf.text(
+                            "Issue Date:",
+                            35,
+                            155
+                        );
+
+                        pdf.setTextColor(
+                            15,
+                            23,
+                            42
+                        );
+
+                        pdf.text(
+                            new Date().toLocaleDateString(),
+                            75,
+                            155
+                        );
+
+
+                        // --------------------------------------
+                        // QR CODE
+                        // --------------------------------------
+
+                        pdf.addImage(
+                            qrDataURL,
+                            "PNG",
+                            135,
+                            135,
+                            40,
+                            40
+                        );
+
+
+                        pdf.setFontSize(9);
+
+                        pdf.setTextColor(
+                            100,
+                            116,
+                            139
+                        );
+
+                        pdf.text(
+                            "Scan to verify",
+                            155,
+                            180,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        // --------------------------------------
+                        // HASH
+                        // --------------------------------------
+
+                        pdf.setFontSize(9);
+
+                        pdf.setTextColor(
+                            71,
+                            85,
+                            105
+                        );
+
+                        pdf.text(
+                            "Blockchain Certificate Hash:",
+                            35,
+                            175
+                        );
+
+
+                        pdf.setFont(
+                            "courier",
+                            "normal"
+                        );
+
+                        pdf.setFontSize(7);
+
+                        pdf.setTextColor(
+                            37,
+                            99,
+                            235
+                        );
+
+
+                        const hashLines =
+                            pdf.splitTextToSize(
+                                certificateHash,
+                                90
+                            );
+
+
+                        pdf.text(
+                            hashLines,
+                            35,
+                            182
+                        );
+
+
+                        // --------------------------------------
+                        // CERTIFICATE STATUS
+                        // --------------------------------------
+
+                        pdf.setFont(
+                            "helvetica",
+                            "bold"
+                        );
+
+                        pdf.setFontSize(12);
+
+                        pdf.setTextColor(
+                            22,
+                            101,
+                            52
+                        );
+
+                        pdf.text(
+                            "VALID CERTIFICATE",
+                            35,
+                            210
+                        );
+
+
+                        pdf.setFont(
+                            "helvetica",
+                            "normal"
+                        );
+
+                        pdf.setFontSize(9);
+
+                        pdf.setTextColor(
+                            71,
+                            85,
+                            105
+                        );
+
+                        pdf.text(
+                            "Certificate verification data stored on blockchain",
+                            35,
+                            218
+                        );
+
+                        // --------------------------------------
+                        // TRANSACTION HASH
+                        // --------------------------------------
+
+                        pdf.setFont(
+                            "helvetica",
+                            "bold"
+                        );
+
+                        pdf.setFontSize(9);
+
+                        pdf.setTextColor(
+                            71,
+                            85,
+                            105
+                        );
+
+                        pdf.text(
+                            "Blockchain Transaction Hash:",
+                            35,
+                            228
+                        );
+
+
+                        pdf.setFont(
+                            "courier",
+                            "normal"
+                        );
+
+                        pdf.setFontSize(6.5);
+
+                        pdf.setTextColor(
+                            37,
+                            99,
+                            235
+                        );
+
+
+                        const transactionLines =
+                            pdf.splitTextToSize(
+                                transactionHash,
+                                140
+                            );
+
+
+                        pdf.text(
+                            transactionLines,
+                            35,
+                            235
+                        );
+
+
+                        // --------------------------------------
+                        // FOOTER
+                        // --------------------------------------
+
+                        pdf.setDrawColor(
+                            203,
+                            213,
+                            225
+                        );
+
+                        pdf.line(
+                            35,
+                            252,
+                            175,
+                            252
+                        );
+
+                        pdf.setFontSize(9);
+
+                        pdf.setTextColor(
+                            100,
+                            116,
+                            139
+                        );
+
+                        pdf.text(
+                            "Decentralized Certificate Verification",
+                            105,
+                            262,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        pdf.text(
+                            "Designed & Developed by Komal Pandey",
+                            105,
+                            270,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        pdf.setFontSize(8);
+
+                        pdf.text(
+                            "Ethereum-compatible blockchain • Hardhat Local",
+                            105,
+                            278,
+                            {
+                                align: "center"
+                            }
+                        );
+
+
+                        // --------------------------------------
+                        // SAVE PDF
+                        // --------------------------------------
+
+                        pdf.save(
+                            certificateId +
+                            "-Certificate.pdf"
+                        );
+
+                    };
+
 
         }
 
@@ -779,9 +1319,7 @@ document
             // ------------------------------------------
 
             document
-                .getElementById(
-                    "verificationResult"
-                )
+                .getElementById("verificationResult")
                 .innerHTML = `
 
                     <h3 class="${
@@ -792,73 +1330,43 @@ document
 
                         ${
                             isValid
-                                ? "✅ Valid Certificate"
-                                : "❌ Revoked Certificate"
+                                ? "✓ Valid Certificate"
+                                : "✗ Revoked Certificate"
                         }
 
                     </h3>
 
-
                     <p>
-                        <strong>
-                            Certificate ID:
-                        </strong>
-
+                        <strong>Certificate ID:</strong>
                         ${certificateId}
                     </p>
 
-
                     <p>
-                        <strong>
-                            Student:
-                        </strong>
-
+                        <strong>Student:</strong>
                         ${studentName}
                     </p>
 
-
                     <p>
-                        <strong>
-                            Course:
-                        </strong>
-
+                        <strong>Course:</strong>
                         ${course}
                     </p>
 
-
                     <p>
-                        <strong>
-                            Certificate Hash:
-                        </strong>
-
+                        <strong>Certificate Hash:</strong>
                         ${certificateHash}
                     </p>
 
-
                     <p>
-                        <strong>
-                            Issue Date:
-                        </strong>
-
+                        <strong>Issue Date:</strong>
                         ${date}
                     </p>
 
-
                     <p>
-                        <strong>
-                            Status:
-                        </strong>
-
-                        ${
-                            isValid
-                                ? "Valid"
-                                : "Revoked"
-                        }
+                        <strong>Status:</strong>
+                        ${isValid ? "Valid" : "Revoked"}
                     </p>
-
-                `;
-
-        }
+                `;       
+}
 
         catch (error) {
 

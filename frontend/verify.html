@@ -307,6 +307,64 @@
 
             word-break: break-all;
         }
+	
+	.copy-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.copy-button {
+    flex-shrink: 0;
+
+    padding: 8px 12px;
+
+    border: 1px solid rgba(59, 130, 246, 0.25);
+
+    border-radius: 8px;
+
+    background: rgba(37, 99, 235, 0.12);
+
+    color: #93c5fd;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.copy-button:hover {
+    background: rgba(37, 99, 235, 0.22);
+
+    transform: translateY(-1px);
+}
+
+.copy-button.copied {
+    color: #4ade80;
+
+    border-color: rgba(34, 197, 94, 0.3);
+
+    background: rgba(34, 197, 94, 0.1);
+}
+
+@media (max-width: 600px) {
+
+    .copy-row {
+        align-items: flex-start;
+    }
+
+    .copy-row .value {
+        flex: 1;
+    }
+
+    .copy-button {
+        padding: 8px 10px;
+    }
+
+}
 
 
         /* =========================
@@ -862,8 +920,19 @@ async function verifyCertificate() {
                         Certificate ID
                     </span>
 
-                    <div class="value">
-                        ${certificateId}
+                    <div class="copy-row">
+
+                        <div class="value">
+                            ${certificateId}
+                        </div>
+
+                        <button
+                            class="copy-button"
+                            data-copy="${certificateId}"
+                        >
+                            Copy
+                        </button>
+
                     </div>
 
                 </div>
@@ -914,8 +983,19 @@ async function verifyCertificate() {
                         Certificate Hash
                     </span>
 
-                    <div class="value hash">
-                        ${certificateHash}
+                    <div class="copy-row">
+
+                        <div class="value hash">
+                            ${certificateHash}
+                        </div>
+
+                        <button
+                            class="copy-button"
+                            data-copy="${certificateHash}"
+                        >
+                            Copy
+                        </button>
+
                     </div>
 
                 </div>
@@ -1041,6 +1121,82 @@ function showError(
     `;
 
 }
+
+document.addEventListener("click", async (event) => {
+
+    const button = event.target.closest(".copy-button");
+
+    if (!button) {
+        return;
+    }
+
+    const value = button.dataset.copy;
+
+    if (!value) {
+        return;
+    }
+
+    try {
+
+        await navigator.clipboard.writeText(value);
+
+        const originalText = button.innerText;
+
+        button.innerText = "Copied";
+        button.classList.add("copied");
+
+        setTimeout(() => {
+
+            button.innerText = originalText;
+            button.classList.remove("copied");
+
+        }, 1500);
+
+    } catch (error) {
+
+        console.error("Clipboard error:", error);
+
+        // Fallback for HTTP/mobile environments
+        const textArea = document.createElement("textarea");
+
+        textArea.value = value;
+
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+
+        document.body.appendChild(textArea);
+
+        textArea.focus();
+        textArea.select();
+
+        try {
+            document.execCommand("copy");
+
+            button.innerText = "Copied";
+            button.classList.add("copied");
+
+            setTimeout(() => {
+
+                button.innerText = "Copy";
+                button.classList.remove("copied");
+
+            }, 1500);
+
+        } catch (fallbackError) {
+
+            console.error(
+                "Fallback copy failed:",
+                fallbackError
+            );
+
+            alert("Unable to copy. Please copy the text manually.");
+
+        }
+
+        document.body.removeChild(textArea);
+    }
+
+});
 
 </script>
 
