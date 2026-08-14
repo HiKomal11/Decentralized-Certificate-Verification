@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Certificate Verification | Web3</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #172554 0%,
+                    #0f172a 38%,
+                    #020617 100%
+                );
+
+            color: #e5e7eb;
+
+            padding: 20px;
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================== */
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+
+            margin: 0 auto;
+
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+
+        /* =========================
+           BRAND
+        ========================== */
+
+        .brand {
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+        .brand-icon {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            font-size: 30px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(37, 99, 235, 0.35);
+        }
+
+        .brand h1 {
+            font-size: 25px;
+
+            color: white;
+
+            margin-bottom: 8px;
+        }
+
+        .brand p {
+            font-size: 14px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =========================
+           MAIN CARD
+        ========================== */
+
+        .card {
+            background:
+                rgba(15, 23, 42, 0.82);
+
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.16);
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 25px 70px
+                rgba(0, 0, 0, 0.35);
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        /* =========================
+           LOADING
+        ========================== */
+
+        .loading {
+            text-align: center;
+
+            padding: 50px 20px;
+
+            color: #94a3b8;
+
+            font-size: 16px;
+        }
+
+        .loader {
+            width: 45px;
+            height: 45px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            border:
+                4px solid
+                rgba(255,255,255,0.1);
+
+            border-top-color: #3b82f6;
+
+            animation:
+                spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =========================
+           STATUS HEADER
+        ========================== */
+
+        .status {
+            text-align: center;
+
+            padding: 10px 0 25px;
+        }
+
+        .status-icon {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 35px;
+        }
+
+        .valid-icon {
+            background:
+                rgba(34,197,94,0.12);
+
+            border:
+                1px solid
+                rgba(34,197,94,0.3);
+        }
+
+        .revoked-icon {
+            background:
+                rgba(239,68,68,0.12);
+
+            border:
+                1px solid
+                rgba(239,68,68,0.3);
+        }
+
+        .status h2 {
+            font-size: 25px;
+
+            margin-bottom: 7px;
+        }
+
+        .status p {
+            color: #94a3b8;
+
+            font-size: 14px;
+        }
+
+
+        .valid {
+            color: #4ade80;
+        }
+
+        .revoked {
+            color: #f87171;
+        }
+
+        .error {
+            color: #f87171;
+        }
+
+
+        /* =========================
+           CERTIFICATE DETAILS
+        ========================== */
+
+        .details {
+            margin-top: 10px;
+        }
+
+        .detail {
+            padding: 16px;
+
+            margin-bottom: 12px;
+
+            border-radius: 13px;
+
+            background:
+                rgba(30,41,59,0.65);
+
+            border:
+                1px solid
+                rgba(148,163,184,0.1);
+        }
+
+        .label {
+            display: block;
+
+            font-size: 12px;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.08em;
+
+            margin-bottom: 6px;
+        }
+
+        .value {
+            font-size: 15px;
+
+            color: #f8fafc;
+
+            word-break: break-word;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           HASH
+        ========================== */
+
+        .hash {
+            font-family:
+                "Courier New",
+                monospace;
+
+            font-size: 12px;
+
+            color: #93c5fd;
+
+            word-break: break-all;
+        }
+
+
+        /* =========================
+           BLOCKCHAIN BADGE
+        ========================== */
+
+        .blockchain-badge {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-top: 18px;
+
+            padding: 13px 15px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(37,99,235,0.10);
+
+            border:
+                1px solid
+                rgba(59,130,246,0.2);
+
+            color: #93c5fd;
+
+            font-size: 13px;
+        }
+
+        .blockchain-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 10px
+                rgba(34,197,94,0.7);
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================== */
+
+        .back-button {
+            display: block;
+
+            width: 100%;
+
+            margin-top: 22px;
+
+            padding: 14px 20px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            color: white;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            font-size: 15px;
+
+            transition: 0.25s;
+
+            box-shadow:
+                0 8px 25px
+                rgba(37,99,235,0.25);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(37,99,235,0.35);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            text-align: center;
+
+            padding: 22px 5px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                padding-top: 15px;
+            }
+
+            .card {
+                padding: 20px;
+
+                border-radius: 18px;
+            }
+
+            .brand h1 {
+                font-size: 22px;
+            }
+
+            .status h2 {
+                font-size: 22px;
+            }
+
+            .detail {
+                padding: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =========================
+         BRAND
+    ========================== -->
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <h1>
+            Certificate Verification
+        </h1>
+
+        <p>
+            Decentralized • Secure • Blockchain Verified
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         CARD
+    ========================== -->
+
+    <div class="card">
+
+
+        <!-- =====================
+             LOADING
+        ====================== -->
+
+        <div
+            id="loading"
+            class="loading"
+        >
+
+            <div class="loader"></div>
+
+            Verifying certificate
+            on blockchain...
+
+        </div>
+
+
+        <!-- =====================
+             RESULT
+        ====================== -->
+
+        <div
+            id="verificationResult"
+            style="display:none;"
+        >
+
+        </div>
+
+
+    </div>
+
+
+    <footer>
+
+        🔗 Powered by Ethereum-compatible blockchain
+
+    <br>
+
+    Decentralized Certificate Verification
+
+    <div class="creator">
+        Designed & Developed by
+        <strong>Komal Pandey</strong>
+    </div>
+
+</footer>
+
+
+</div>
+
+
+<script type="module">
+
+import {
+    createPublicClient,
+    http,
+    defineChain
+} from
+"https://esm.sh/viem";
+
+
+// ======================================================
+// CONTRACT ADDRESS
+// ======================================================
+
+const CONTRACT_ADDRESS =
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+
+// ======================================================
+// HARDHAT NETWORK
+// ======================================================
+
+const hardhatLocal =
+    defineChain({
+
+        id: 31337,
+
+        name: "Hardhat Local",
+
+        nativeCurrency: {
+
+            name: "Ether",
+
+            symbol: "ETH",
+
+            decimals: 18
+
+        },
+
+        rpcUrls: {
+
+            default: {
+
+                http: [
+
+                    "http://192.168.0.112:8545"
+
+                ]
+
+            }
+
+        }
+
+    });
+
+
+// ======================================================
+// ABI
+// ======================================================
+
+const contractABI = [
+
+    {
+
+        inputs: [
+
+            {
+
+                internalType: "string",
+
+                name: "_certificateId",
+
+                type: "string"
+
+            }
+
+        ],
+
+        name: "verifyCertificate",
+
+        outputs: [
+
+            {
+
+                internalType: "string",
+
+                name: "studentName",
+
+                type: "string"
+
+            },
+
+            {
+
+                internalType: "string",
+
+                name: "course",
+
+                type: "string"
+
+            },
+
+            {
+
+                internalType: "bytes32",
+
+                name: "certificateHash",
+
+                type: "bytes32"
+
+            },
+
+            {
+
+                internalType: "uint256",
+
+                name: "issueDate",
+
+                type: "uint256"
+
+            },
+
+            {
+
+                internalType: "bool",
+
+                name: "isValid",
+
+                type: "bool"
+
+            }
+
+        ],
+
+        stateMutability: "view",
+
+        type: "function"
+
+    }
+
+];
+
+
+// ======================================================
+// PUBLIC CLIENT
+// ======================================================
+
+const publicClient =
+    createPublicClient({
+
+        chain: hardhatLocal,
+
+        transport:
+            http(
+                "http://192.168.0.112:8545"
+            )
+
+    });
+
+
+// ======================================================
+// URL PARAMETER
+// ======================================================
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const certificateId =
+    urlParams.get("id");
+
+
+// ======================================================
+// ELEMENTS
+// ======================================================
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+const verificationResult =
+    document.getElementById(
+        "verificationResult"
+    );
+
+
+// ======================================================
+// VERIFY
+// ======================================================
+
+if (!certificateId) {
+
+    showError(
+        "Certificate ID Missing",
+        "No certificate ID was provided in the QR code."
+    );
+
+} else {
+
+    verifyCertificate();
+
+}
+
+
+// ======================================================
+// VERIFY CERTIFICATE
+// ======================================================
+
+async function verifyCertificate() {
+
+    try {
+
+        const result =
+            await publicClient.readContract({
+
+                address:
+                    CONTRACT_ADDRESS,
+
+                abi:
+                    contractABI,
+
+                functionName:
+                    "verifyCertificate",
+
+                args: [
+                    certificateId
+                ]
+
+            });
+
+
+        const studentName =
+            result[0];
+
+        const course =
+            result[1];
+
+        const certificateHash =
+            result[2];
+
+        const issueDate =
+            result[3];
+
+        const isValid =
+            result[4];
+
+
+        const date =
+            new Date(
+                Number(issueDate) * 1000
+            ).toLocaleString();
+
+
+        loading.style.display =
+            "none";
+
+        verificationResult.style.display =
+            "block";
+
+
+        verificationResult.innerHTML = `
+
+            <div class="status">
+
+                <div class="
+                    status-icon
+                    ${
+                        isValid
+                            ? "valid-icon"
+                            : "revoked-icon"
+                    }
+                ">
+
+                    ${
+                        isValid
+                            ? "✓"
+                            : "✕"
+                    }
+
+                </div>
+
+
+                <h2 class="
+                    ${
+                        isValid
+                            ? "valid"
+                            : "revoked"
+                    }
+                ">
+
+                    ${
+                        isValid
+                            ? "Valid Certificate"
+                            : "Certificate Revoked"
+                    }
+
+                </h2>
+
+
+                <p>
+
+                    ${
+                        isValid
+                            ? "This certificate has been successfully verified on the blockchain."
+                            : "This certificate has been revoked by the authorized administrator."
+                    }
+
+                </p>
+
+            </div>
+
+
+            <div class="details">
+
+
+                <div class="detail">
+
+                    <span class="label">
+                        Certificate ID
+                    </span>
+
+                    <div class="value">
+                        ${certificateId}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="label">
+                        Student Name
+                    </span>
+
+                    <div class="value">
+                        ${studentName}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="label">
+                        Course
+                    </span>
+
+                    <div class="value">
+                        ${course}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="label">
+                        Issue Date
+                    </span>
+
+                    <div class="value">
+                        ${date}
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span class="label">
+                        Certificate Hash
+                    </span>
+
+                    <div class="value hash">
+                        ${certificateHash}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="blockchain-badge">
+
+                <span class="blockchain-dot"></span>
+
+                Certificate data verified
+                directly from blockchain
+
+            </div>
+
+
+            <a
+                href="index.html"
+                class="back-button"
+            >
+
+                ← Back to Certificate Portal
+
+            </a>
+
+        `;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Verification error:",
+            error
+        );
+
+
+        showError(
+            "Certificate Not Found",
+            "Please check the certificate ID or make sure the blockchain node is running."
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// ERROR DISPLAY
+// ======================================================
+
+function showError(
+    title,
+    message
+) {
+
+    loading.style.display =
+        "none";
+
+    verificationResult.style.display =
+        "block";
+
+
+    verificationResult.innerHTML = `
+
+        <div class="status">
+
+            <div class="
+                status-icon
+                revoked-icon
+            ">
+
+                ✕
+
+            </div>
+
+
+            <h2 class="error">
+
+                ${title}
+
+            </h2>
+
+
+            <p>
+
+                ${message}
+
+            </p>
+
+        </div>
+
+
+        <div class="blockchain-badge">
+
+            <span
+                class="blockchain-dot"
+                style="
+                    background:#ef4444;
+                    box-shadow:
+                    0 0 10px
+                    rgba(239,68,68,0.7);
+                "
+            ></span>
+
+            Blockchain verification
+            could not be completed.
+
+        </div>
+
+
+        <a
+            href="index.html"
+            class="back-button"
+        >
+
+            ← Back to Certificate Portal
+
+        </a>
+
+    `;
+
+}
+
+</script>
+
+</body>
+
+</html>

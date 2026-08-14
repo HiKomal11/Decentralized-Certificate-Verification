@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -10,135 +9,465 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Decentralized Certificate Verification</title>
+    <title>CertiChain | Decentralized Certificate Verification</title>
 
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-<header>
+    <!-- ==============================
+         BACKGROUND EFFECTS
+    =============================== -->
 
-    <h1>🎓 Decentralized Certificate Verification</h1>
-
-    <p>
-        Blockchain-based certificate issuing, verification and revocation
-    </p>
-
-    <button id="connectWallet">
-        Connect MetaMask
-    </button>
-
-    <p id="walletAddress"></p>
-
-</header>
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
 
 
-<main>
+    <!-- ==============================
+         HEADER
+    =============================== -->
 
-    <!-- Issue Certificate -->
+    <header>
 
-    <section class="card">
+        <div class="header-content">
 
-        <h2> Issue Certificate</h2>
+            <div class="brand">
 
-        <p class="card-description">
-            Authorized administrators can issue a new digital certificate.
+                <div class="brand-icon">
+                    🎓
+                </div>
+
+                <div>
+                    <h1>CertiChain</h1>
+
+                    <span>
+                        Decentralized Certificate Verification
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="header-description">
+
+                <p>
+                    Secure. Transparent. Blockchain-powered.
+                </p>
+
+                <p class="network-status">
+                    <span class="status-dot"></span>
+                    Hardhat Local Network
+                </p>
+
+            </div>
+
+
+            <button id="connectWallet" class="connect-button">
+                🦊 Connect MetaMask
+            </button>
+
+
+            <div class="wallet-info">
+
+                <p id="walletAddress"></p>
+
+                <p id="userRole"></p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==============================
+         MAIN CONTENT
+    =============================== -->
+
+    <main>
+
+
+        <!-- ==============================
+             HERO
+        =============================== -->
+
+        <section class="hero">
+
+            <div class="hero-badge">
+                🔐 BLOCKCHAIN SECURED
+            </div>
+
+            <h2>
+                Trust Every Certificate.
+            </h2>
+
+            <p>
+                Issue, verify and revoke academic certificates
+                securely using blockchain technology.
+            </p>
+
+        </section>
+
+
+        <!-- ==============================
+             ADMIN SECTION
+        =============================== -->
+
+        <div id="adminSection">
+
+
+            <!-- ==============================
+                 ISSUE CERTIFICATE
+            =============================== -->
+
+            <section class="card admin-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon issue-icon">
+                        📜
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Issue Certificate
+                        </h2>
+
+                        <p class="card-description">
+                            Create a tamper-resistant digital certificate
+                            and store its verification data on blockchain.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="input-group">
+
+                        <label for="certificateId">
+                            Certificate ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="certificateId"
+                            placeholder="e.g. CERT001"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="studentName">
+                            Student Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="studentName"
+                            placeholder="Enter student name"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group full-width">
+
+                        <label for="course">
+                            Course / Program
+                        </label>
+
+                        <input
+                            type="text"
+                            id="course"
+                            placeholder="e.g. B.E. CSE (AIML)"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="issueCertificate"
+                    class="primary-button"
+                >
+                    ⛓️ Issue on Blockchain
+                </button>
+
+
+                <p id="issueStatus"></p>
+
+
+                <!-- QR SECTION -->
+
+                <div
+                    id="qrSection"
+                    class="qr-section"
+                    style="display: none;"
+                >
+
+                    <div class="qr-header">
+
+                        <span class="qr-icon">
+                            📱
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Certificate QR Code
+                            </h3>
+
+                            <p>
+                                Scan this QR code to verify
+                                the certificate.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="qr-container">
+
+                        <img
+                            id="qrCode"
+                            alt="Certificate QR Code"
+                        >
+
+                    </div>
+
+
+                    <button
+                        id="downloadQR"
+                        class="secondary-button"
+                    >
+                        ⬇️ Download QR Code
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==============================
+                 REVOKE CERTIFICATE
+            =============================== -->
+
+            <section class="card revoke-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon revoke-icon">
+                        🚫
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Revoke Certificate
+                        </h2>
+
+                        <p class="card-description">
+                            Permanently mark an issued certificate
+                            as revoked on the blockchain.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="revokeCertificateId">
+                        Certificate ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="revokeCertificateId"
+                        placeholder="Enter certificate ID"
+                    >
+
+                </div>
+
+
+                <button
+                    id="revokeCertificate"
+                    class="danger-button"
+                >
+                    🚫 Revoke Certificate
+                </button>
+
+
+                <p id="revokeStatus"></p>
+
+            </section>
+
+        </div>
+
+
+        <!-- ==============================
+             VERIFY CERTIFICATE
+        =============================== -->
+
+        <section class="card verify-card">
+
+            <div class="verify-header">
+
+                <div class="verify-icon">
+                    🔍
+                </div>
+
+                <div>
+
+                    <h2>
+                        Verify Certificate
+                    </h2>
+
+                    <p class="card-description">
+                        Enter a certificate ID to verify its
+                        authenticity and blockchain status.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="verify-form">
+
+                <input
+                    type="text"
+                    id="verifyCertificateId"
+                    placeholder="Enter Certificate ID"
+                >
+
+                <button
+                    id="verifyCertificate"
+                    class="verify-button"
+                >
+                    🔎 Verify Certificate
+                </button>
+
+            </div>
+
+
+            <div id="verificationResult"></div>
+
+        </section>
+
+
+        <!-- ==============================
+             FEATURES
+        =============================== -->
+
+        <section class="features">
+
+            <div class="feature">
+
+                <span>🔗</span>
+
+                <div>
+
+                    <h3>
+                        Blockchain Secured
+                    </h3>
+
+                    <p>
+                        Certificate records are stored
+                        on a decentralized network.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <span>🛡️</span>
+
+                <div>
+
+                    <h3>
+                        Tamper Resistant
+                    </h3>
+
+                    <p>
+                        Certificate verification data
+                        cannot be secretly modified.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <span>📱</span>
+
+                <div>
+
+                    <h3>
+                        QR Verification
+                    </h3>
+
+                    <p>
+                        Verify certificates quickly
+                        using a smartphone.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==============================
+         FOOTER
+    =============================== -->
+
+    <footer>
+
+        <div class="footer-brand">
+            🎓 CertiChain
+        </div>
+
+        <p>
+            Decentralized Certificate Verification
         </p>
 
-        <input
-            type="text"
-            id="certificateId"
-            placeholder="Certificate ID (e.g. CERT005)"
-        >
-
-        <input
-            type="text"
-            id="studentName"
-            placeholder="Student Name"
-        >
-
-        <input
-            type="text"
-            id="course"
-            placeholder="Course"
-        >
-
-        <button id="issueCertificate">
-            Issue Certificate
-        </button>
-
-        <p id="issueStatus"></p>
-
-    </section>
-
-
-    <!-- Verify Certificate -->
-
-    <section class="card">
-
-        <h2> Verify Certificate</h2>
-
-        <p class="card-description">
-            Enter a certificate ID to verify its authenticity and status.
+        <p class="footer-tech">
+            Powered by Ethereum • Hardhat • Solidity
         </p>
 
-        <input
-            type="text"
-            id="verifyCertificateId"
-            placeholder="Enter Certificate ID"
-        >
-
-        <button id="verifyCertificate">
-            Verify Certificate
-        </button>
-
-        <div id="verificationResult"></div>
-
-    </section>
-
-
-    <!-- Revoke Certificate -->
-
-    <section class="card">
-
-        <h2> Revoke Certificate</h2>
-
-        <p class="card-description">
-            Authorized administrators can revoke an existing certificate.
+        <p class="creator">
+            Designed & Developed by
+            <strong>Komal Pandey</strong>
+            © 2026
         </p>
 
-        <input
-            type="text"
-            id="revokeCertificateId"
-            placeholder="Enter Certificate ID"
-        >
 
-        <button id="revokeCertificate">
-            Revoke Certificate
-        </button>
-
-        <p id="revokeStatus"></p>
-
-    </section>
-
-</main>
+    </footer>
 
 
-<footer>
-
-    <p>
-        Decentralized Certificate Verification • Powered by Blockchain
-    </p>
-
-</footer>
-
-
-<script
-    type="module"
-    src="app.js"
-></script>
+    <script
+        type="module"
+        src="app.js"
+    ></script>
 
 </body>
 
