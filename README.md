@@ -257,47 +257,51 @@ Course: B.Sc Computer Science
 Certificate Hash: 0x31fe...
 Status: Revoked
 
-## Application Workflow
-Administrator
-      │
-      ▼
-Connect MetaMask
-      │
-      ▼
-Enter Certificate Details
-      │
-      ▼
-Issue Certificate
-      │
-      ▼
-Smart Contract
-      │
-      ▼
-Certificate Stored on Blockchain
-      │
-      ▼
-User Enters Certificate ID
-      │
-      ▼
-Verify Certificate
-      │
-      ├───────────────┐
-      ▼               ▼
-   Valid            Revoked
-      │               │
-      ▼               ▼
-   Valid            Revoked
- 
-  ## Access Control
-The smart contract uses an owner-based access control mechanism.
-Only the contract owner can:
-- Issue Certificate
-- Revoke Certificate
-Certificate verification is publicly accessible.
-This ensures that unauthorized users cannot issue or revoke certificates.
- Example Smart Contract Data
+##  Application Workflow
 
+```text
+                    Administrator / User
+                            │
+                            ▼
+                    Connect MetaMask
+                            │
+                            ▼
+                 Enter Certificate Details
+                            │
+                            ▼
+                    Issue Certificate
+                            │
+                            ▼
+                   Smart Contract
+                            │
+                            ▼
+              Certificate Stored on Blockchain
+                            │
+                            ▼
+                User Enters Certificate ID
+                            │
+                            ▼
+                    Verify Certificate
+                            │
+                 ┌──────────┴──────────┐
+                 ▼                     ▼
+              Valid                 Revoked
+                 │                     │
+                 ▼                     ▼
+          Valid Certificate     Revoked Certificate
+```
+
+##  Access Control
+The smart contract uses an **owner-based access control mechanism**.
+Only the contract owner can:
+- Issue certificates
+- Revoke certificates
+Certificate verification is publicly accessible to anyone.
+This ensures that unauthorized users cannot issue or revoke certificates.
+
+ ##  Example Smart Contract Data
 A certificate is represented by:
+```text
 Certificate
 │
 ├── Certificate ID
@@ -306,14 +310,16 @@ Certificate
 ├── Certificate Hash
 ├── Issue Date
 └── Validity Status
-
-Example:
+```
+### Example
+```text
 Certificate ID: CERT005
 Student Name: Rahul Sharma
 Course: B.Sc Computer Science
 Certificate Hash: 0x31fe...
 Issue Date: 13 August 2026
 Status: Valid
+```
 
 ## Testing Performed
 The project has been tested on a local Hardhat blockchain.
