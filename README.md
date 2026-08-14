@@ -85,7 +85,9 @@ After revocation, verification displays:   Revoked Certificate
 | CSS          | Frontend styling                          |
 | Git & GitHub | Version control                           |
 
-## Project Structure
+##  Project Structure
+
+```text
 Decentralized-Certificate-Verification/
 │
 ├── contracts/
@@ -104,11 +106,12 @@ Decentralized-Certificate-Verification/
 │   └── testCertificate.ts
 │
 ├── .gitignore
+├── README.md
 ├── hardhat.config.ts
 ├── package.json
 ├── package-lock.json
 └── tsconfig.json
-
+```
 ## Smart Contract
 The main smart contract is:
 contracts/CertificateVerification.sol
