@@ -50,10 +50,20 @@ const sepolia = defineChain({
 // ======================================================
 
 let walletClient;
-let publicClient;
 let account;
 let isAdmin = false;
 
+// ======================================================
+// PUBLIC SEPOLIA BLOCKCHAIN CLIENT
+// No MetaMask required for read-only operations
+// ======================================================
+
+const publicClient = createPublicClient({
+    chain: sepolia,
+    transport: http(
+        "https://ethereum-sepolia-rpc.publicnode.com"
+    )
+});
 
 // ======================================================
 // CONTRACT ABI
@@ -262,24 +272,6 @@ document
                         window.ethereum
                     )
 
-                });
-
-
-            // ------------------------------------------
-            // CREATE PUBLIC CLIENT
-            // ------------------------------------------
-
-            publicClient =
-                createPublicClient({
-
-                    chain: sepolia,
-
-                    transport:
-                        http(
-                            "https://ethereum-sepolia-rpc.publicnode.com"
-                        )
-
-                });
 
 
             // ------------------------------------------
@@ -1204,19 +1196,6 @@ document
 document
     .getElementById("verifyCertificate")
     .addEventListener("click", async () => {
-
-        // ----------------------------------------------
-        // CHECK PUBLIC CLIENT
-        // ----------------------------------------------
-
-        if (!publicClient) {
-
-            alert(
-                "Please connect MetaMask first."
-            );
-
-            return;
-        }
 
 
         try {
