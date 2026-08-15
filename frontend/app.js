@@ -215,12 +215,9 @@ document
     .addEventListener("click", async () => {
 
         if (!window.ethereum) {
-
             alert("Please install MetaMask.");
-
             return;
         }
-
 
         try {
 
@@ -228,24 +225,19 @@ document
             // REQUEST ACCOUNT
             // ------------------------------------------
 
-            const accounts =
-                await window.ethereum.request({
-                    method: "eth_requestAccounts"
-                });
-
+            const accounts = await window.ethereum.request({
+                method: "eth_requestAccounts"
+            });
 
             account = accounts[0];
-
 
             // ------------------------------------------
             // CHECK NETWORK
             // ------------------------------------------
 
-            const chainId =
-                await window.ethereum.request({
-                    method: "eth_chainId"
-                });
-
+            const chainId = await window.ethereum.request({
+                method: "eth_chainId"
+            });
 
             if (parseInt(chainId, 16) !== 11155111) {
 
@@ -256,23 +248,15 @@ document
                 return;
             }
 
-
             // ------------------------------------------
             // CREATE WALLET CLIENT
             // ------------------------------------------
 
-            walletClient =
-                createWalletClient({
-
-                    account: account,
-
-                    chain: sepolia,
-
-                    transport: custom(
-                        window.ethereum
-                    )
-
-
+            walletClient = createWalletClient({
+                account: account,
+                chain: sepolia,
+                transport: custom(window.ethereum)
+            });
 
             // ------------------------------------------
             // DISPLAY WALLET
@@ -280,9 +264,7 @@ document
 
             document
                 .getElementById("walletAddress")
-                .innerText =
-                    "Connected: " + account;
-
+                .innerText = "Connected: " + account;
 
             // ------------------------------------------
             // GET CONTRACT OWNER
@@ -290,15 +272,10 @@ document
 
             const contractOwner =
                 await publicClient.readContract({
-
                     address: CONTRACT_ADDRESS,
-
                     abi: contractABI,
-
                     functionName: "owner"
-
                 });
-
 
             // ------------------------------------------
             // CHECK ADMIN
@@ -308,27 +285,20 @@ document
                 account.toLowerCase() ===
                 contractOwner.toLowerCase();
 
-
             // ------------------------------------------
             // DISPLAY ROLE
             // ------------------------------------------
 
             const roleElement =
-                document.getElementById(
-                    "userRole"
-                );
-
+                document.getElementById("userRole");
 
             const adminSection =
-                document.getElementById(
-                    "adminSection"
-                );
-
+                document.getElementById("adminSection");
 
             if (isAdmin) {
 
                 roleElement.innerText =
-                    " Role: Administrator";
+                    "Role: Administrator";
 
                 roleElement.className =
                     "admin-role";
@@ -339,7 +309,7 @@ document
             } else {
 
                 roleElement.innerText =
-                    " Role: Verifier";
+                    "Role: Verifier";
 
                 roleElement.className =
                     "user-role";
@@ -348,27 +318,18 @@ document
                     "none";
             }
 
-
-            console.log(
-                "Connected account:",
-                account
-            );
-
-            console.log(
-                "Contract owner:",
-                contractOwner
-            );
-
-            console.log(
-                "Is administrator:",
-                isAdmin
-            );
+            console.log("Connected account:", account);
+            console.log("Contract owner:", contractOwner);
+            console.log("Is administrator:", isAdmin);
 
         }
 
         catch (error) {
 
-            console.error("Connection error:", error);
+            console.error(
+                "Connection error:",
+                error
+            );
 
             document
                 .getElementById("walletAddress")
@@ -380,9 +341,10 @@ document
                 .innerText =
                     "⚠️ Wallet connected, but contract information could not be loaded.";
 
-}
+        }
 
     });
+
 
 
 // ======================================================
